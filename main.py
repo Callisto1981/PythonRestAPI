@@ -34,16 +34,20 @@ resource_fields = {
     'likes': fields.Integer
 }
 
+
 class Video(Resource):
+    @marshal_with(resource_fields)
     def get(self, video_id):
         result = VideoModel.query.get(id=video_id)
         return result
 
+    @marshal_with(resource_fields)
     def put(self, video_id):
-        abort_if_video_exists(video_id)
         args = video_put_args.parse_args()
-        videos[video_id] = args
-        return videos[video_id], 201
+        video = VideoModel(id=video_id, name=args['name'], views=args['views'], likes=args["likes"])
+        db.session.add(video)
+        db.session.commit()
+        return video, 201
 
     def delete(self,  video_id):
         abort_if_video_id_doesnt_exist(video_id)
