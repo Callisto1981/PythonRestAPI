@@ -50,8 +50,8 @@ class Video(Resource):
         return video, 201
 
     def delete(self,  video_id):
-        abort_if_video_id_doesnt_exist(video_id)
-        del videos[ video_id]
+        # abort_if_video_id_doesnt_exist(video_id)
+        # del videos[ video_id]
         return '', 204
 
 
